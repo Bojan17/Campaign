@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
+import axios from 'axios';
 import factory from '../ethereum/factory';
 import Layout from '../components/Layout';
 import { Link } from '../routes';
@@ -7,9 +8,15 @@ import { Link } from '../routes';
 class CampaignIndex extends Component {
   //load list of campaings on server side
   static async getInitialProps() {
-    const campaigns = await factory.methods.getDeployedCampaigns().call();
-    //return props
-    return { campaigns };
+    try {
+      const campaigns = await factory.methods.getDeployedCampaigns().call();
+      //const list = await axios.get('/api/campaigns');
+      //return props
+      return { campaigns };
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   renderCampaigns() {
@@ -28,6 +35,7 @@ class CampaignIndex extends Component {
 
     return <Card.Group items={items} />;
   }
+
 
   render() {
     return (

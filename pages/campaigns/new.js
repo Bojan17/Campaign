@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Button, Input, Message } from 'semantic-ui-react';
+import axios from 'axios';
+import { Form, Button, Input, Message, TextArea } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
@@ -9,6 +10,9 @@ class CampaignNew extends Component {
   state = {
     minimumContribution: '',
     errorMessage: '',
+    campaign_name: '',
+    description: '',
+    manager: '',
     loading: false
   };
 
@@ -22,6 +26,14 @@ onSubmit = async (event) => {
   await factory.methods.createCampaign(this.state.minimumContribution)
           .send({
             from: accounts[0]
+          });
+        const {minimumContribution, name, description,manager, campaign_name} = this.state;
+          await axios.post('/api/newcampaign', {
+            minimumContribution,
+            campaign_name,
+            description,
+            manager,
+            wallet: accounts[0]
           });
 
         Router.pushRoute('/');
@@ -45,12 +57,31 @@ onSubmit = async (event) => {
               onChange={event => this.setState({ minimumContribution: event.target.value })}
             />
           </Form.Field>
+          <Form.Field>
+            <label>Manager</label>
+            <Input
+              value={this.state.name}
+              onChange={event => this.setState({ manager: event.target.value })}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Campaign Name</label>
+            <Input
+              value={this.state.name}
+              onChange={event => this.setState({ campaign_name: event.target.value })}
+            />
+          </Form.Field>
+          <TextArea
+            placeholder='Tell us about your campaign'
+            onChange={event => this.setState({ description: event.target.value })}
+          />
+
           <Message
             error
             header="Oops!"
             content={this.state.errorMessage}
           />
-          <Button loading={this.state.loading} primary>Create!</Button>
+          <Button style={{'marginTop': '1rem'}}loading={this.state.loading} primary>Create!</Button>
         </Form>
       </Layout>
     );

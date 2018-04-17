@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Grid, Button } from 'semantic-ui-react';
+import axios from 'axios';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/campaign';
 import web3 from '../../ethereum/web3';
@@ -19,6 +20,7 @@ class CampaingShow extends Component {
       approversCount: summary[3],
       manager: summary[4]
     };
+
   }
 
   renderCards() {
