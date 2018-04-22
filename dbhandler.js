@@ -24,7 +24,6 @@ module.exports = server => {
 
   server.get('/api/campaigns', async (req,res) => {
     const list = await Idea.find({});
-    console.log(list);
-    res.send(list.data);
+    res.send(list);
   })
 }

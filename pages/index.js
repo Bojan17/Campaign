@@ -10,9 +10,11 @@ class CampaignIndex extends Component {
   static async getInitialProps() {
     try {
       const campaigns = await factory.methods.getDeployedCampaigns().call();
-      //const list = await axios.get('/api/campaigns');
+      const res = await axios.get('http://localhost:3000/api/campaigns');
       //return props
-      return { campaigns };
+      const list = res.data;
+      console.log(list);
+      return { campaigns, list };
     } catch (err) {
       console.log(err);
     }
@@ -21,7 +23,7 @@ class CampaignIndex extends Component {
 
   renderCampaigns() {
     //rendering campaings and styling them with semantic
-    const items  = this.props.campaigns.map( address => {
+    /*const items  = this.props.campaigns.map( address => {
         return {
           header: address,
           description: (
@@ -33,7 +35,23 @@ class CampaignIndex extends Component {
         };
     });
 
+    return <Card.Group items={items} />; */
+    const items  = this.props.list.map( idea => {
+        return {
+          header: idea.campaign_name,
+          description: (
+            <Link route={`/campaigns/${idea.wallet}`}>
+              <a>View Campaign</a>
+            </Link>
+          ),
+          meta: idea.manager,
+          fluid: true
+        };
+    });
+
     return <Card.Group items={items} />;
+
+
   }
 
 
