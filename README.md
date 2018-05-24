@@ -1,6 +1,6 @@
 #  CrowdCoin 
 
-This is an app made to based on kickstart.com. Main difference is that is uses **ethers** for contribution, and also
+This is an app made based on kickstart.com. Main difference is that is uses **ethers** for contribution, and also
 requires approval from contributors for any spendings.
 
 It's built using:
